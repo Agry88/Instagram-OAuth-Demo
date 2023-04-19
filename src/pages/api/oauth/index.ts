@@ -5,15 +5,17 @@ import z from "zod";
 import getEnvironmentVariable from "@/utils/getEnvironmentVariable";
 
 const AxiosResponseSchema = z.object({
-  access_token: z.string(),
-  user_id: z.string(),
+  data: z.object({
+    access_token: z.string(),
+    user_id: z.string(),
+  })
 })
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const { code } = req.query;
 
-  const oauthRes = await axios.post("https://api.instagram.com/oauth/access_token", {
+  const axiosResponse = await axios.post("https://api.instagram.com/oauth/access_token", {
     client_id: getEnvironmentVariable("NEXT_PUBLIC_INSTAGRAM_CLIENT_ID", ""),
     client_secret: getEnvironmentVariable("INSTAGRAM_CLIENT_SECRET", ""),
     code: code,
@@ -23,12 +25,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     }
-  }).catch((err) => {
+  })
+    .catch((err) => {
     console.error(err);
     res.status(500).send("Something went wrong");
   })
   
-
-  const { access_token: accessToken, user_id: userId } = AxiosResponseSchema.parse(oauthRes);
+  const { data: { access_token: accessToken, user_id: userId } } = AxiosResponseSchema.parse(axiosResponse);
   res.redirect(`${hostURL}/redirect?accessToken=${accessToken}&userId=${userId}`);
 }
