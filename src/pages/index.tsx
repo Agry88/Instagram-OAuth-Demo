@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   const getRedirectURL = (): string => { 
     const redirectURL = new URL("https://api.instagram.com/oauth/authorize");
     redirectURL.searchParams.append("client_id", getEnvironmentVariable("NEXT_PUBLIC_INSTAGRAM_CLIENT_ID", ""));
-    redirectURL.searchParams.append("redirect_uri", hostURL);
+    redirectURL.searchParams.append("redirect_uri", `${hostURL}/api/oauth`);
     redirectURL.searchParams.append("response_type", "code");
     redirectURL.searchParams.append("scope", "user_profile,user_media");
     return redirectURL.toString();
