@@ -6,13 +6,10 @@ import { hostURL } from "@/config";
 
 const Home: NextPage = () => {
 
-  const getRedirectURL = (): string => { 
-    const redirectURL = new URL("https://api.instagram.com/oauth/authorize");
-    redirectURL.searchParams.append("client_id", getEnvironmentVariable("NEXT_PUBLIC_INSTAGRAM_CLIENT_ID", ""));
-    redirectURL.searchParams.append("redirect_uri", `${hostURL}/api/oauth/`);
-    redirectURL.searchParams.append("response_type", "code");
-    redirectURL.searchParams.append("scope", "user_profile,user_media");
-    return redirectURL.toString();
+  const getRedirectURL = (): string => {
+    const clientID = getEnvironmentVariable("NEXT_PUBLIC_INSTAGRAM_CLIENT_ID", "");
+    const instagramAuthURL = `https://api.instagram.com/oauth/authorize?client_id=${clientID}&redirect_uri=${hostURL}/api/oauth&response_type=code&scope=user_profile,user_media`;
+    return instagramAuthURL;
   }
 
   return (
