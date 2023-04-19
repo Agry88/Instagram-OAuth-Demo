@@ -29,7 +29,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     .catch((err) => {
     console.error(err);
     res.status(500).send("Something went wrong");
-  })
+    })
+  
+  console.log(axiosResponse);
+  
   
   const { data: { access_token: accessToken, user_id: userId } } = AxiosResponseSchema.parse(axiosResponse);
   res.redirect(`${hostURL}/redirect?accessToken=${accessToken}&userId=${userId}`);
