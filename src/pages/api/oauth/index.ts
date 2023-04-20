@@ -15,6 +15,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const { code } = req.query;
 
+  return res.redirect(`${hostURL}/redirect?accessToken=${code as string}&userId=${456}`);
+
   const axiosResponse = await axios.post("https://api.instagram.com/oauth/access_token", {
     client_id: getEnvironmentVariable("NEXT_PUBLIC_INSTAGRAM_CLIENT_ID", ""),
     client_secret: getEnvironmentVariable("INSTAGRAM_CLIENT_SECRET", ""),
@@ -32,7 +34,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     })
   
     console.log(axiosResponse);
-    return res.redirect(`${hostURL}/redirect?accessToken=${123}&userId=${456}`);
   
   
   //const { data: { access_token: accessToken, user_id: userId } } = AxiosResponseSchema.parse(axiosResponse);
