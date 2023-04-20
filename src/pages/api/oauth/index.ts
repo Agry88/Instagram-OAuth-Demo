@@ -20,15 +20,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     client_secret: getEnvironmentVariable("INSTAGRAM_CLIENT_SECRET", ""),
     code: code,
     grant_type: "authorization_code",
-    redirect_uri: `${hostURL}/api/oauth`,
+    redirect_uri: `${hostURL}/api/oauth/`,
   }, {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     }
   })
     .catch((err) => {
-    console.error(err);
-    res.status(500).send("Something went wrong");
+      console.error(err);
+      res.status(500).send("Something went wrong");
     })
   
   console.log(axiosResponse);
