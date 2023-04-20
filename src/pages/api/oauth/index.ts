@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     client_secret: getEnvironmentVariable("INSTAGRAM_CLIENT_SECRET", ""),
     code: code,
     grant_type: "authorization_code",
-    redirect_uri: `${hostURL}/redirect?accessToken=${'temp'}&userId=${'temp'}`,
+    redirect_uri: `${hostURL}/api/oauth/`,
   }, {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -31,9 +31,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).send("Something went wrong");
     })
   
-  console.log(axiosResponse);
+    console.log(axiosResponse);
+    return res.redirect(`${hostURL}/redirect?accessToken=${123}&userId=${456}`);
   
   
-  const { data: { access_token: accessToken, user_id: userId } } = AxiosResponseSchema.parse(axiosResponse);
-  res.redirect(`${hostURL}/redirect?accessToken=${accessToken}&userId=${userId}`);
+  //const { data: { access_token: accessToken, user_id: userId } } = AxiosResponseSchema.parse(axiosResponse);
 }
