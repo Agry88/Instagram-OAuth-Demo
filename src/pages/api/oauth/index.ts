@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     client_secret: getEnvironmentVariable("INSTAGRAM_CLIENT_SECRET", ""),
     code: code,
     grant_type: "authorization_code",
-    redirect_uri: `${hostURL}/api/oauth/`,
+    redirect_uri: `${hostURL}/redirect?accessToken=${'temp'}&userId=${'temp'}`,
   }, {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
